@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router"
 
 import ChallengeIndex from "../components/ChallengeIndex/ChallengeIndex"
 import NavBar from "../components/NavBar/NavBar"
+import HomePage from "../components/HomePage/HomePage"
 
 
 
