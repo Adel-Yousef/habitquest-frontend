@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react"
+import axios from "axios"
+import { BrowserRouter as Router, Routes, Route } from "react-router"
+
+
+import ChallengeIndex from "../components/ChallengeIndex/ChallengeIndex"
+import NavBar from "../components/NavBar/NavBar"
+
+
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  async function makeRequest() {
+    const response = await axios.get('http://127.0.0.1:8000/api/')
+    console.log(response)
+    
+  }
+  makeRequest()
+
+  async function makePostRequest() {
+    const response = await axios.post('http://127.0.0.1:8000/api/', {
+      messageFormAppJsx: 'Hey i made a post request! 🥳'
+    })
+    console.log(response)
+    
+  }
+  makePostRequest()
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>App</div>
   )
 }
 
