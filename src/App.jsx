@@ -30,7 +30,13 @@ function App() {
   makePostRequest()
 
   return (
-    <div>App</div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/challenges" element={<ChallengeIndex />} />
+      </Routes>
+    </Router>
   )
 }
 
