@@ -46,6 +46,10 @@ function ChallengeDetail() {
         getSingleChallenge()
     }, [])
 
+    function handleProgressSaved(){
+        getSingleChallenge()
+    }
+
     if (errors) {
         return <h3>{errors}</h3>
     }
@@ -68,6 +72,7 @@ function ChallengeDetail() {
             <div>
                 <ProgressForm 
                     participation={userParticipation}
+                    handleProgressSaved={handleProgressSaved}
                 />
                 <ProgressList progress={userParticipation.progress} />
             </div>

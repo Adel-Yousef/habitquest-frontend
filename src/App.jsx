@@ -7,6 +7,7 @@ import ChallengeIndex from "../components/ChallengeIndex/ChallengeIndex"
 import NavBar from "../components/NavBar/NavBar"
 import HomePage from "../components/HomePage/HomePage"
 import ChallengeDetail from "../components/ChallengeDetail/ChallengeDetail"
+import ChallengeForm from "../components/ChallengeForm/ChallengeForm"
 
 
 
@@ -37,6 +38,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/challenges" element={<ChallengeIndex />} />
         <Route path="/challenges/:challengeId" element={<ChallengeDetail />} />
+        <Route path="/challenges/new" element={<ChallengeForm />} />
+        <Route path="/challenges/:challengeId/edit" element={<ChallengeForm />} />
       </Routes>
     </Router>
   )

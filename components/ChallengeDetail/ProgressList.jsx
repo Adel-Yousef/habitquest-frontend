@@ -12,7 +12,7 @@ function ProgressList({progress}) {
     <div>
         <h3>Your Progress:</h3>
         {
-            progress
+            progress && progress.length > 0
             ?
             progress.map(prog => {
                 return(
