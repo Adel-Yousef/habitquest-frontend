@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Link, useParams } from "react-router"
+import ProgressForm from "./ProgressForm"
+import ProgressList from "./ProgressList"
 
 
 
@@ -12,6 +14,11 @@ function ChallengeDetail() {
     const [errors, setErrors] = useState(null)
     const [joinMessage, setJoinMessage] = useState('')
 
+
+    const userParticipation = challenge.participations?.find(
+        participation => participation.user === 1
+    )
+
     async function joinChallenge() {
     try {
         const response = await axios.post(`http://127.0.0.1:8000/api/challenges/${challengeId}/participations/`, {})
@@ -19,7 +26,7 @@ function ChallengeDetail() {
         getSingleChallenge()
     } catch (error) {
         console.log('full error:', error.response)
-        setJoinMessage(error.response?.data?.error || "Error joining challenge")
+        setJoinMessage("Error joining challenge")
     }
 }
 
@@ -50,8 +57,22 @@ function ChallengeDetail() {
         <p>Duration: {challenge.start_date} to {challenge.end_date}</p>
         <p>Created by: User {challenge.created_by}</p>
 
-        <button onClick={joinChallenge}>Join Challenge!</button>
-        {joinMessage && <p>{joinMessage}</p> }
+        {!userParticipation && (
+            <div>
+                <button onClick={joinChallenge}>Join Challenge!</button>
+                {joinMessage && <p>{joinMessage}</p> }
+            </div>
+        )}
+
+        {userParticipation && (
+            <div>
+                <ProgressForm 
+                    participation={userParticipation}
+                />
+                <ProgressList progress={userParticipation.progress} />
+            </div>
+        )}
+        
         <div>
             <h3>Participations:</h3>
             {
