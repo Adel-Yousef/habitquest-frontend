@@ -13,11 +13,23 @@ function ChallengeDetail() {
     const [challenge, setChallenge] = useState({})
     const [errors, setErrors] = useState(null)
     const [joinMessage, setJoinMessage] = useState('')
+    const [leaveMessage, setLeaveMessage] = useState('')
 
 
     const userParticipation = challenge.participations?.find(
         participation => participation.user === 1
     )
+
+    async function leaveChallenge(){
+        try {
+            const response = await axios.delete(`http://127.0.0.1:8000/api/challenges/${challengeId}/leave/1/`)
+            setLeaveMessage(response.data.message)
+            setJoinMessage('')
+            getSingleChallenge()
+        } catch (error) {
+            console.log('Error leaving challenge:', error)
+        }
+    }
 
     async function joinChallenge() {
     try {
@@ -61,6 +73,8 @@ function ChallengeDetail() {
         <p>Duration: {challenge.start_date} to {challenge.end_date}</p>
         <p>Created by: User {challenge.created_by}</p>
 
+        
+
         {!userParticipation && (
             <div>
                 <button onClick={joinChallenge}>Join Challenge!</button>
@@ -68,6 +82,8 @@ function ChallengeDetail() {
             </div>
         )}
 
+        {leaveMessage}
+        
         {userParticipation && (
             <div>
                 <ProgressForm 
@@ -75,8 +91,12 @@ function ChallengeDetail() {
                     handleProgressSaved={handleProgressSaved}
                 />
                 <ProgressList progress={userParticipation.progress} />
+
+                <button onClick={leaveChallenge} >Leave Challenge</button>
             </div>
         )}
+
+        
         
         <div>
             <h3>Participations:</h3>
