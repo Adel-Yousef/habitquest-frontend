@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { Link, useParams } from "react-router"
+import { Link, useParams, useNavigate } from "react-router"
 import ProgressForm from "./ProgressForm"
 import ProgressList from "./ProgressList"
+import { authRequest } from "../../lib/auth"
 
 
 
 
-function ChallengeDetail() {
+function ChallengeDetail({user}) {
     
     const {challengeId} = useParams()
+    const navigate = useNavigate()
     const [challenge, setChallenge] = useState({})
     const [errors, setErrors] = useState(null)
     const [joinMessage, setJoinMessage] = useState('')
@@ -17,12 +19,26 @@ function ChallengeDetail() {
 
 
     const userParticipation = challenge.participations?.find(
-        participation => participation.user === 1
+        participation => participation.user === user.id
     )
+
+    async function deleteChallenge() {
+        if (window.confirm("Are you sure you want to delete this challenge?")) {
+            try {
+                const response = await authRequest({method: 'DELETE', url: `http://127.0.0.1:8000/api/challenges/${challengeId}/`})
+                alert('Challenge deleted successfuly!')
+                navigate('/challenges')
+            } catch (error) {
+                alert('Error deleting challenge')
+                console.log('Error deleting challenge:', error)
+            }
+        }
+        
+    }
 
     async function leaveChallenge(){
         try {
-            const response = await axios.delete(`http://127.0.0.1:8000/api/challenges/${challengeId}/leave/1/`)
+            const response = await authRequest({method: 'DELETE', url: `http://127.0.0.1:8000/api/challenges/${challengeId}/leave/`})
             setLeaveMessage(response.data.message)
             setJoinMessage('')
             getSingleChallenge()
@@ -33,7 +49,7 @@ function ChallengeDetail() {
 
     async function joinChallenge() {
     try {
-        const response = await axios.post(`http://127.0.0.1:8000/api/challenges/${challengeId}/participations/`, {})
+        const response = await authRequest({method: 'POST', url: `http://127.0.0.1:8000/api/challenges/${challengeId}/participations/`, data: {}})
         setJoinMessage("Successfully joined challenge!")
         getSingleChallenge()
     } catch (error) {
@@ -44,7 +60,7 @@ function ChallengeDetail() {
 
     async function getSingleChallenge() {
         try{
-            const response = await axios.get(`http://127.0.0.1:8000/api/challenges/${challengeId}/`)
+            const response = await authRequest({method: 'GET', url: `http://127.0.0.1:8000/api/challenges/${challengeId}/`})
             console.log(response.data)
             setChallenge(response.data)
         } catch (error) {
@@ -116,6 +132,12 @@ function ChallengeDetail() {
         </div>
 
         <Link to={`/challenges/${challenge.id}/edit`} >Edit Challenge</Link>
+
+        {challenge.created_by === user.id && (
+            <div>
+                <button onClick={deleteChallenge}>Delete Challenge</button>
+            </div>
+        )}
     </div>
   )
 }

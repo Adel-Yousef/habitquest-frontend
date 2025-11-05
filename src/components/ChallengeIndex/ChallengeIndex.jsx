@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import axios from 'axios'
 import { Link } from 'react-router'
+import { authRequest } from '../../lib/auth'
 
 
 function ChallengeIndex() {
@@ -8,7 +9,7 @@ function ChallengeIndex() {
   const [challenegs, setChallenges] = useState([])
 
   async function getAllChallenges() {
-    const response = await axios.get('http://127.0.0.1:8000/api/challenges/')
+    const response = await authRequest({method: "GET", url: 'http://127.0.0.1:8000/api/challenges/'})
     console.log(response.data)
     setChallenges(response.data)
   }
