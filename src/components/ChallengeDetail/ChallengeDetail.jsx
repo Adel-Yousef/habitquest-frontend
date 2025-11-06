@@ -4,7 +4,7 @@ import { Link, useParams, useNavigate } from "react-router"
 import ProgressForm from "./ProgressForm"
 import ProgressList from "./ProgressList"
 import { authRequest } from "../../lib/auth"
-
+import "./ChallengeDetail.scss"
 
 
 
@@ -19,8 +19,13 @@ function ChallengeDetail({user}) {
 
 
     const userParticipation = challenge.participations?.find(
-        participation => participation.user === user.id
+        participation => participation.user?.id === Number(user.user_id)
     )
+
+    if (!user) {
+        return <h3>Loading user...</h3>;
+    }
+
 
     async function deleteChallenge() {
         if (window.confirm("Are you sure you want to delete this challenge?")) {
@@ -81,40 +86,41 @@ function ChallengeDetail({user}) {
     if (errors) {
         return <h3>{errors}</h3>
     }
-
+    console.log("user", user.user_id)
+    console.log(challenge.created_by)
   return (
-    <div>
+    <div className="challenge-detail">
         <h1>{challenge.title}</h1>
         <p>{challenge.description}</p>
-        <p>Duration: {challenge.start_date} to {challenge.end_date}</p>
-        <p>Created by: User {challenge.created_by}</p>
+        <p className="duration">Duration: {challenge.start_date} to {challenge.end_date}</p>
+        <p className="creator">Created by: User {challenge.created_by}</p>
 
         
 
         {!userParticipation && (
-            <div>
+            <div className="button-group">
                 <button onClick={joinChallenge}>Join Challenge!</button>
-                {joinMessage && <p>{joinMessage}</p> }
+                {joinMessage && <p className="message">{joinMessage}</p> }
             </div>
         )}
 
         {leaveMessage}
         
         {userParticipation && (
-            <div>
+            <div className="button-group">
                 <ProgressForm 
                     participation={userParticipation}
                     handleProgressSaved={handleProgressSaved}
                 />
-                <ProgressList progress={userParticipation.progress} />
-
-                <button onClick={leaveChallenge} >Leave Challenge</button>
+                <ProgressList className='progress-list' progress={userParticipation.progress} />
+                
+                <button className="leave" onClick={leaveChallenge} >Leave Challenge</button>
             </div>
         )}
 
         
         
-        <div>
+        <div className="participations">
             <h3>Participations:</h3>
             {
                 challenge.participations
@@ -122,7 +128,7 @@ function ChallengeDetail({user}) {
                 challenge.participations.map(participation =>{
                 return (
                     <p key={participation.id}>
-                        User {participation.user} - Joined: {participation.join_date}
+                        {participation.user.username} - Joined: {participation.join_date}
                     </p>
                 )
             })
@@ -133,9 +139,9 @@ function ChallengeDetail({user}) {
 
         <Link to={`/challenges/${challenge.id}/edit`} >Edit Challenge</Link>
 
-        {challenge.created_by === user.id && (
-            <div>
-                <button onClick={deleteChallenge}>Delete Challenge</button>
+        {challenge.created_by === Number(user.user_id) && (
+            <div className="button-group">
+                <button className="delete" onClick={deleteChallenge}>Delete Challenge</button>
             </div>
         )}
     </div>

@@ -1,8 +1,10 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router'
+import { authRequest } from '../../lib/auth'
+import './ChallengeForm.scss'
 
-function ChallengeForm() {
+function ChallengeForm({user}) {
 
     const navigate = useNavigate()
     const {challengeId} = useParams()
@@ -12,11 +14,11 @@ function ChallengeForm() {
         description: '',
         start_date: '',
         end_date: '',
-        created_by: 1  // Hardcoded for now
+        created_by: user.user_id
     })
 
     async function getSingleChallenge(){
-        const response = await axios.get(`http://127.0.0.1:8000/api/challenges/${challengeId}/`)
+        const response = await authRequest({method: "GET", url: `http://127.0.0.1:8000/api/challenges/${challengeId}/`})
         console.log('Challenge API response:', response.data)  
         setFormData(response.data)
     }
@@ -38,9 +40,9 @@ function ChallengeForm() {
         let response = {}
 
         if (challengeId){
-            response = await axios.put(`http://127.0.0.1:8000/api/challenges/${challengeId}/`, formData)
+            response = await authRequest({method: "PUT", url: `http://127.0.0.1:8000/api/challenges/${challengeId}/`, data: formData})
         } else {
-            response = await axios.post('http://127.0.0.1:8000/api/challenges/', formData)
+            response = await authRequest({method: "POST", url: 'http://127.0.0.1:8000/api/challenges/', data: formData})
         }
 
         console.log(response)
@@ -50,7 +52,7 @@ function ChallengeForm() {
     }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='challenge-form'>
         <div>
             <h1> {challengeId ? `Edit ${formData.title}` : 'Create New Challenge'} </h1>
             

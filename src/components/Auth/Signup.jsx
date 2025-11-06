@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router'
+import './Signup.scss'
 
 export default function SignUp() {
   const [username, setUsername] = useState('')
@@ -22,7 +23,7 @@ export default function SignUp() {
   }
 
   return (
-    <div>
+    <div className='signup-page'>
       <form onSubmit={handleSubmit}>
         <h2>Sign Up</h2>
         <input placeholder='Username' value={username} onChange={e => setUsername(e.target.value)} />

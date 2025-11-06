@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import axios from "axios"
 import { saveTokens, getUserFromToken } from "../../lib/auth"
 import { useNavigate, Link } from "react-router"
+import './Login.scss'
 
 export default function Login({ setUser }) {
   const [username, setUsername] = useState("")
@@ -26,7 +27,7 @@ export default function Login({ setUser }) {
   }
 
   return (
-    <div>
+    <div className="login-page">
         <form onSubmit={handleSubmit}>
         <h2>Login</h2>
         <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />

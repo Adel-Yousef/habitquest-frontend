@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import axios from 'axios'
+import { authRequest } from '../../lib/auth'
 
 function ProgressForm({participation, setChallenge, handleProgressSaved}) {
     const [progressData, setProgressData] = useState({
@@ -20,7 +21,7 @@ function ProgressForm({participation, setChallenge, handleProgressSaved}) {
         event.preventDefault()
 
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/participations/${participation.id}/progress/`, progressData)
+            const response = await authRequest({method: "POST", url: `http://127.0.0.1:8000/api/participations/${participation.id}/progress/`, data: progressData})
             setMessage(`Progress logged for ${progressData.date}!`)
             handleProgressSaved()
 

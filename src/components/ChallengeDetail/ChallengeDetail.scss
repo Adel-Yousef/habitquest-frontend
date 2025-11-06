@@ -1,0 +1,125 @@
+$primary-color: #e9295c;  
+$accent-color: #ed711e;    
+$highlight-color: #d4ea62; 
+$background-color: #fff8f4;
+$text-color: #333;
+$border-radius: 10px;
+
+.challenge-detail {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: "Poppins", sans-serif;
+  text-align: left;
+
+  h1 {
+    color: $primary-color;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: $text-color;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .duration {
+    color: $accent-color;
+    font-weight: 500;
+  }
+
+  .creator {
+    font-size: 0.95rem;
+    color: darken($text-color, 20%);
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    button {
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: $border-radius;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+        transform: translateY(-2px);
+      }
+
+      &.leave {
+        background-color: $accent-color;
+        
+
+
+        &:hover {
+          background-color: darken($accent-color, 10%);
+        }
+      }
+
+      &.delete {
+        background-color: #000;
+        &:hover {
+          background-color: #333;
+        }
+      }
+    }
+  }
+
+  .message {
+    text-align: center;
+    font-weight: 500;
+    color: $highlight-color;
+    margin-top: 1rem;
+  }
+
+  .participations {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: $border-radius;
+    border: 1px solid #eee;
+
+    h3 {
+      color: $accent-color;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      background-color: #fafafa;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #eee;
+    }
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    text-decoration: none;
+    color: $accent-color;
+    font-weight: 600;
+    text-align: center;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    
+  }
+}
